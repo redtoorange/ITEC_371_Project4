@@ -1,0 +1,10 @@
+setMemory 3
+addProgram first 4 1 1 1
+addProgram second 4 1
+addProgram third 2 1
+setBurst 4
+start first
+start second
+start third
+run
+quit
