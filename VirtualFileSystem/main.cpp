@@ -417,6 +417,22 @@ std::shared_ptr<Directory>  readInFile( const string& filename )
 }
 
 /*!
+*   \brief Check the input string for any extra whitespaces at the beginning and end.  Remove them.
+*   
+*   \param input the string to modify
+*/
+void trimWhiteSpace(std::string& input)
+{
+	// Remove leading whitespace
+	while( !input.empty() && input[0] == ' ')
+		input.erase(0, 1);
+
+	// Remove trailing whitespace
+	while( !input.empty() && input[ input.length() - 1 ] == ' ')
+		input.erase( input.length() - 1);
+}
+
+/*!
 *   \brief Enter into the main command loop for the application.  RUFS will continue to listen for input until the quit
 *   command is entered.
 */
@@ -441,8 +457,11 @@ void commandLoop( const string& filename, std::shared_ptr<Directory> rootPtr )
 		std::string input;
 		getline(cin, input);
 		bool handled = false;
-
 		
+		// Ensure there is no extra whitespace
+		trimWhiteSpace(input);
+
+		// If the input is empty just go back
 		if( input.empty() ) continue;
 
 		// Step through known commands
@@ -450,11 +469,9 @@ void commandLoop( const string& filename, std::shared_ptr<Directory> rootPtr )
 		{
 			int len = cmd[i].length();
 
+			// Fire the input into the control branching
 			if( equalIC(input.substr(0, len), cmd[i]) )
-			{
-                // Fire the input into the control branching
 				handled = executeCommand( static_cast<Commands>(i), input );
-			}
 		}
 
 		if( !handled ) cout << "Unknown Command...\n";

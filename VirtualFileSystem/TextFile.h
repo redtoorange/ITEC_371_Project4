@@ -41,6 +41,7 @@ public:
 	const std::string& getContents() const;
 	
 private:
+	//!
 	std::string fileContents;
 };
 
