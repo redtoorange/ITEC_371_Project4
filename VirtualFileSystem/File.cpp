@@ -1,7 +1,7 @@
 ﻿/*
  *	Andrew McGuiness
- *	ITEC 371 - Project 3
- *	4/1/2018
+ *	ITEC 371 - Project 4
+ *	4/19/2018
 */
 
 #include "File.h"

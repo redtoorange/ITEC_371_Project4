@@ -10,7 +10,7 @@
 #include <memory>
 #include "File.h"
 
-/*!
+/**
 *	\brief A special type of file that contains the necessary metadata to be executed.  ProgramFiles can be loaded
 *	into a Scheduler which will spawn a process, an object that contains running process data.
 */

@@ -11,7 +11,7 @@
 
 class Scheduler;
 
-/*!
+/**
 *	\brief A Process is created by the Scheduler each time a program is started.  The process tracks the program
 *	instance's progress.  It tracks the number of units the process has been run, when it started, it's IO data
 *	and can detect if the job is done.

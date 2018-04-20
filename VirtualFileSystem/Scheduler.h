@@ -12,7 +12,7 @@
 #include "ProgramFile.h"
 #include "Process.h"
 
-/*!
+/**
 *	\brief A Scheduler manages all jobs on the system.  Jobs are either running, waiting or finished.  The scheduler
 *	will only run a single process at a time.  The process will run for a number of ticks equal to the burst time.  If
 *	the job finishes before the burst, it will be moved to the finished queue and a new job/burst is started.  If the
@@ -202,13 +202,13 @@ private:
 	 */
 	void freeMemory( int amount );
 
-	//! Queue that contains all jobs that are running but waiting on the scheduler
+	//! Contains all jobs that are running but waiting on the scheduler
 	std::deque<std::shared_ptr<Process>> runningJobs;
 
-	//! Queue that contains all jobs that are waiting on the system for IO
+	//! Contains all jobs that are waiting on the system for IO
 	std::deque<std::shared_ptr<Process>> waitingOnIOJobs;
 
-	//! Queue that contains all jobs this scheduler has completed
+	//! Contains all jobs this scheduler has completed
 	std::deque<std::shared_ptr<Process>> finishedJobs;
 
 	//! The currently running process
