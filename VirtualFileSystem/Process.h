@@ -147,32 +147,32 @@ public:
 	bool isInVM();
 
 private:
-	//! 
+	//! The name of the ProgramFile that this process was spawned from
 	std::string name;
 
-	//! 
+	//! How many main ticks have this unit run for
 	int unitsRun;
 
-	//! 
+	//! How much memory is required for this process to be loaded into memory
 	int memoryRequired;
-	//! 
+	//! How many main ticks does this process need to complete
 	int timeRequired;
 
-	//! 
+	//! What time does this process perform IO
 	int timeToIO;
-	//! 
+	//! How long will this process spend in IO
 	int amountOfIO;
 
-	//! 
+	//! What system time was this process created
 	int timeStarted;
-	//! 
+	//! What system time was this process finished
 	int timeFinished;
 
-	//! 
+	//! Is this process currently in VM?
 	bool inVM;
-	//! 
+	//! Has this process finished acquiring resources (loading from VM)
 	bool hasResources;
-	//! 
+	//! How many ticks has this process been loading from VM to main memory
 	int vmTicks;
 
 };

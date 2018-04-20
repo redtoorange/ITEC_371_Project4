@@ -1,7 +1,7 @@
 /*
  *	Andrew McGuiness
- *	ITEC 371 - Project 3
- *	4/1/2018
+ *	ITEC 371 - Project 4
+ *	4/19/2018
 */
 
 #ifndef UTIL_H
@@ -9,13 +9,10 @@
 
 #include <string>
 
-/*!
-*	\brief Contains some generic useful stuff that will be
-*	referenced throughout the program.
-*/
-
-const std::string PROG_EXTENSION = ".p";
-const std::string TEXT_EXTENSION = ".t";
+/**
+ *	The Util file contains data for useage by the program to handle different kinds of input.  
+ *	All the commands the system is required to use are listed here.
+ */
 
 //! Contains the string literal version of all commands
 const std::string cmd[] = {
@@ -56,7 +53,14 @@ enum Commands : int{
 	
 };
 
-//! Check two string to see if they are equal, ignoring case.
+/**
+ *	\brief	Compare two strings to see if they are equal, ignoring case.
+ *	
+ *	\param a First string to compare
+ *	\param b Second string to compare
+ *	
+ *	\return True if both strings are equal ignoring case
+ */
 bool equalIC( const std::string& a, const std::string& b);
 
 #endif

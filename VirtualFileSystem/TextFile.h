@@ -86,7 +86,7 @@ public:
 	const std::string& getContents() const;
 	
 private:
-	//!
+	//! The text contents, of body, of this TextFile
 	std::string fileContents;
 };
 

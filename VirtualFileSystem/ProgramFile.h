@@ -126,16 +126,16 @@ public:
 	int getAmoutOfIO() const;
 
 private:
-	//! 
+	//! How much memory does this program require to execute
 	int memoryRequirements;
-	//! 
+	//! How long does it take for this process to execute
 	int timeRequirements;
 
-	//! 
+	//! Does this process need to fetch IO
 	int needsIO;
-	//! 
+	//! When does this process need to start fetching IO
 	int timeToDoIO;
-	//! 
+	//! How long will this process be fetching IO for
 	int amoutOfIoTime;
 };
 

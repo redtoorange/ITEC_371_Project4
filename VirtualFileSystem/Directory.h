@@ -10,7 +10,6 @@
 #include <vector>
 #include <memory>
 #include <ostream>
-
 #include "FSObject.h"
 #include "ProgramFile.h"
 
