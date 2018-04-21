@@ -83,7 +83,7 @@ To build the system, just use the make command from a terminal.  The make
 	file will instruct the compiler/linker on how to build the system.
 
 Once the program has been built, it can be executed from a terminal with 
-	./RATCH <filename>
+	./RUIN <filename>
 	
 	* Replace <filename> with the name of the file you want to load/save to.  
 	The extension does not matter.

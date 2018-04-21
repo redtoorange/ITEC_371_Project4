@@ -18,7 +18,6 @@ class FSObject
 {
 public:
 	FSObject() = default;
-	virtual ~FSObject() = default;
 
 	/**
 	 *	\return The name of this FileSystem Object
@@ -38,18 +37,19 @@ public:
 	 *	
 	 *	\param tabs How many tabs to include in the output.
 	 *	
-	 *	This function is used so that each FSObject can have it's own way of responding to
-	 *	the ls command.
+	 *	This function is used so that each FSObject can have it's own way of 
+	 *	responding to the ls command.
 	 */
 	virtual void printData( int tabs) = 0;
 	
 	/**
-	 *	\brief All FSObjects need to have a way of writing them to a binary File.
+	 *	\brief All FSObjects need to have a way of writing them to a binary 
+	 *	File.
 	 *	
 	 *	\param stream Where to write the FSObject to.
 	 *	
-	 *	All FSObjects must implement this function.  The point is to have a recursive way of
-	 *	serializing the entire FileSystem.
+	 *	All FSObjects must implement this function.  The point is to have a 
+	 *	recursive way of serializing the entire FileSystem.
 	 */
 	virtual void writeToFile( std::ofstream& stream ) = 0;
 

@@ -51,8 +51,8 @@ void createDir( const std::string& dirName)
 }
 
 /**
- *	\brief Attempt to create a new file inside currentDirectory.  There needs to be a 
- *	touch of parsing done here to direct control flow. 
+ *	\brief Attempt to create a new file inside currentDirectory.  There needs to 
+ *	be a touch of parsing done here to direct control flow. 
  */
 void createTextFile( )
 {
@@ -87,13 +87,14 @@ void createTextFile( )
 }
 
 /**
- *	\brief Parse user input into a programFile, then store the ProgramFile in the current directory.
+ *	\brief Parse user input into a programFile, then store the ProgramFile in 
+ *	the current directory.
  *	
  *	\param programData The string of user input to pull data from.
  */
 void createProgramFile( const std::string& programData )
 {
-	// Tokenize the user's input string
+	// Tokenized the user's input string
 	std::stringstream ss{programData};
 	string item;
 	std::queue<string> tokens;
@@ -102,10 +103,11 @@ void createProgramFile( const std::string& programData )
 	while( std::getline(ss, item, ' '))
 		tokens.push(item);
 
-	// Ensure we have atleast 3 tokens: Name, time and memory
+	// Ensure we have at least 3 tokens: Name, time and memory
 	if( tokens.size() < 3)
 	{
-		cout << "Error: Program files must be in format [name] [time] [memory]\n";
+		cout << "Error: Program files must be in"
+			 << " format [name] [time] [memory]\n";
 	}
 	else
 	{
@@ -119,7 +121,7 @@ void createProgramFile( const std::string& programData )
 		int mem = std::stoi(tokens.front());
 		tokens.pop();
 
-		// Attempt to parse out the IO paramaters if they exist
+		// Attempt to parse out the IO parameters if they exist
 		int doesIO = 0;
 		int timeIO = 0;
 		int amountIO = 0;
@@ -134,7 +136,9 @@ void createProgramFile( const std::string& programData )
 		}
 
 		// Create the ProgramFile and store it in the current directory
-		const auto file = ProgramFile::makeProgramFile(name, time, mem, doesIO, timeIO, amountIO);
+		const auto file = ProgramFile::makeProgramFile(name, time, mem, doesIO, 
+			timeIO, amountIO);
+			
 		if( file )
 			currentDirectory->addObject( file );
 	}
@@ -168,7 +172,8 @@ void tryToChangeDir( const std::string& dirName )
 }
 
 /**
- *	\brief Search for a TextFile in the current Directory then print it's contents if it was found.
+ *	\brief Search for a TextFile in the current Directory then print it's 
+ *	contents if it was found.
  *	
  *	\param fileName TextFile name to search for and print the contents of.
  */
@@ -185,7 +190,8 @@ void printTextFile(const string& fileName)
 }
 
 /**
- *	\brief Search for a ProgramFile in the current Directory, if found try to create a process in the Scheduler.
+ *	\brief Search for a ProgramFile in the current Directory, if found try to 
+ *	create a process in the Scheduler.
  *	
  *	\param fileName ProgramFile name to search for and spawn a process from.
  */
@@ -202,7 +208,7 @@ void startProcess(const string& fileName)
 }
 
 /**
- *	\brief Handle complex, multipart commands that take an argument.
+ *	\brief Handle complex, multi-part commands that take an argument.
  *	
  *	\param command What the command was parsed as.
  *	\param input What the user actually typed in.
@@ -214,7 +220,8 @@ bool handleCompound(Commands command, const std::string& input )
 	// Get the length of the command + 1 for a space
 	const auto len = cmd[command].length()+1;
 
-	// Ensure that the user didn't JUST enter the command, there needs to be more
+	// Ensure that the user didn't JUST enter the command, there needs to be 
+	//	more
 	bool valid = input.length() > len && input[len-1] == ' ';
 
 	// Was the command handled?
@@ -271,7 +278,10 @@ bool handleCompound(Commands command, const std::string& input )
 
 	// Unable to handle the command in it's state
 	else
-		cout << "Error: Malformed input, <command filename/directory> is required format.\n";
+	{
+		cout << "Error: Malformed input, <command filename/directory> is "
+			 << "required format.\n";
+	}
 
 	return handled;
 }
@@ -291,12 +301,12 @@ bool handleSimple(Commands command, const std::string& input )
 
 	switch( command )
 	{
-		// Create a new textfile, the user will be prompted for furth input
+		// Create a new text file, the user will be prompted for further input
 		case CREATE_TEXT:
 			if( equalIC(input, "createtextfile"))
 				createTextFile();
 			else
-				cout << "Error: Malformed input, createTextFile takes no arguments." << std::endl;
+				cout << "Error: createTextFile takes no arguments.\n";
 			break;
 
 		// List the file in currentDirectory
@@ -304,7 +314,7 @@ bool handleSimple(Commands command, const std::string& input )
 			if( equalIC(input, "ls"))
 				currentDirectory->printData(0);
 			else
-				cout << "Error: Malformed input, <ls> is required format." << std::endl;
+				cout << "Error: <ls> is required format.\n";
 			break;
 
 		// Display the current working directory to the user
@@ -312,7 +322,7 @@ bool handleSimple(Commands command, const std::string& input )
 			if( equalIC(input, "pwd"))
 				cout << "Current directory is " << *currentDirectory << endl; 
 			else
-				cout << "Error: Malformed input, <pwd> is required format." << std::endl;	
+				cout << "Error: <pwd> is required format.\n";	
 			break;
 
 		// Run the current stuff in the scheduler
@@ -325,7 +335,7 @@ bool handleSimple(Commands command, const std::string& input )
 			{
 				int m = scheduler.getMemory();
 				if( m == -1 )
-					cout << "System Memory has not been configured." << endl;
+					cout << "System Memory has not been configured.\n";
 				else
 					cout << "System Memory: " << m << endl;
 			}
@@ -336,7 +346,7 @@ bool handleSimple(Commands command, const std::string& input )
 			{
 				int b = scheduler.getBurst();
 				if( b == -1 )
-					cout << "System Burst has not been configured." << endl;
+					cout << "System Burst has not been configured.\n";
 				else
 					cout << "System Burst Time: " << b << endl;
 			}
@@ -355,14 +365,15 @@ bool handleSimple(Commands command, const std::string& input )
 }
 
 /**
- *	\brief Direct to control flow based on the category of the command that the user entered.
+ *	\brief Direct to control flow based on the category of the command that the 
+ *	user entered.
  *	
  *	\param command What the command was parsed as.
  *	\param input What the user actually typed in.
  *	
- *	Commands can either be complex or simple.  Simple commands only contain the command, like "ls" or "pwd".
- *	These commands can be executed directly.  Complex commands take arguments and need to be further
- *	parsed.
+ *	Commands can either be complex or simple.  Simple commands only contain the 
+ *	command, like "ls" or "pwd".  These commands can be executed directly.  
+ *	Complex commands take arguments and need to be further parsed.
  *	
  *	\return True of the command was handled successfully.
  */
@@ -371,11 +382,13 @@ bool executeCommand( Commands command, const std::string& input )
 	switch(command)
 	{
 		// Handle all complex commands
-		case MKDIR: case CAT:  case START:  case CD: case ADD_PRO: case SET_MEM: case SET_BURST: case STEP:
+		case MKDIR: 	case CAT:  		case START:  	case CD: 
+		case ADD_PRO: 	case SET_MEM: 	case SET_BURST: case STEP:
 				return handleCompound(command, input);
 
 		// Handle all simple commands
-		case CREATE_TEXT: case LIST: case PWD: case RUN: case GET_MEM: case GET_BURST:  case QUIT:
+		case CREATE_TEXT: 	case LIST: 		case PWD: 	case RUN: 
+		case GET_MEM: 		case GET_BURST:	case QUIT:
 				return handleSimple(command, input);
 	}
 
@@ -383,10 +396,11 @@ bool executeCommand( Commands command, const std::string& input )
 }
 
 /**
- *	\brief The program should look for and inflate the FS that is stored on disk. This processes rebuilds 
- *	the FS structure based on the requirements.
+ *	\brief The program should look for and inflate the FS that is stored on 
+ *	disk. This processes rebuilds the FS structure based on the requirements.
  *	
- *	\param filename The name that was passed in by the user as a commandline argument.
+ *	\param filename The name that was passed in by the user as a command-line 
+ *	argument.
  *	
  *	\return The root directory of the reconstructed FS.
  */
@@ -397,11 +411,13 @@ std::shared_ptr<Directory>  readInFile( const string& filename )
 	// Load in the file from disk
 	std::ifstream inFile{ filename, std::ios::in | std::ios::binary};
 
-    // 11 char token to pull from the file.  All files/directories are identified by 11 chars, 8 for name,
-    //  a period, a 1 char extension and then a null character
+    // 11 char token to pull from the file.  All files/directories are 
+	//	identified by 11 chars, 8 for name, a period, a 1 char extension 
+	//	and then a null character
 	char token[11];
 
-    // Once we will out the token, we have to toss out the null chars to parse it easier
+    // Once we will out the token, we have to toss out the null chars to parse 
+	//	it easier
 	std::string parsed;
 	
 	while( running == true)
@@ -432,7 +448,8 @@ std::shared_ptr<Directory>  readInFile( const string& filename )
 			}
 			else
 			{
-                // Try to inflate the flat directory back into the linked structure
+                // Try to inflate the flat directory back into the linked 
+				//	structure
 				auto d = Directory::CreateDirectory(parsed, currentDirectory );
 
 				// Swap currentDirectory only if d was created
@@ -452,7 +469,7 @@ std::shared_ptr<Directory>  readInFile( const string& filename )
 		else if( extension == ".t" )
 			currentDirectory->addObject( TextFile::inflateTextFile(parsed, inFile));
 
-        // REMOVED: We found a program
+        // We found a program
 		else if( extension == ".p")
 			currentDirectory->addObject( ProgramFile::inflateProgramFile(parsed, inFile));
 	
@@ -472,7 +489,8 @@ std::shared_ptr<Directory>  readInFile( const string& filename )
 }
 
 /**
- *	\brief Check the input string for any extra whitespaces at the beginning or end, and remove them.
+ *	\brief Check the input string for any extra whitespace at the beginning or 
+ *	end, and remove them.
  *	
  *	\param input The string to remove white spaces from
  */
@@ -488,15 +506,16 @@ void trimWhiteSpace(std::string& input)
 }
 
 /**
- *	\brief Enter into the main command loop for the application.  The progra, will continue to listen 
- *	for input until the "quit" command is entered.
+ *	\brief Enter into the main command loop for the application.  The program, 
+ *	will continue to listen for input until the "quit" command is entered.
  *	
- *	\param filename The name of the filesystem when it is saved.
+ *	\param filename The name of the file system when it is saved.
  *	\param rootPtr Pointer to the root directory of the loaded FS.
  *	
- *	The program can begin execution with a filesystem loaded from disk or with none loaded.  If there
- *	is a FS on disk, it is reinflated and used as root.  If there isn't one already, a new one is created
- *	and will be saved to the supplied filename.
+ *	The program can begin execution with a file system loaded from disk or with 
+ *	none loaded.  If there is a FS on disk, it is re-inflated and used as root.  
+ *	If there isn't one already, a new one is created and will be saved to the 
+ *	supplied filename.
  */
 void commandLoop( const string& filename, std::shared_ptr<Directory> rootPtr )
 {
@@ -558,14 +577,16 @@ void commandLoop( const string& filename, std::shared_ptr<Directory> rootPtr )
 
 
 /**
- *	\brief The Program's main entry point.  It accepts a commandline argument for the name of the filesystem.
+ *	\brief The Program's main entry point.  It accepts a command-line argument 
+ *	for the name of the file system.
  *	
  *	\param argc Number of arguments
  *	\param argv Array of arguments
  *	
- *	The program accepts a single commandline argument, the name of the filesystem on disk.  The system
- *	will attempt to find the specified FS and load it in, if none is found, a new one is created.  When
- *	the program is quit by the user, the new FS is written to disk.
+ *	The program accepts a single command-line argument, the name of the file 
+ *	system on disk.  The system will attempt to find the specified FS and load 
+ *	it in, if none is found, a new one is created.  When the program is quit by 
+ *	the user, the new FS is written to disk.
  *	
  *	\return 0 if the program exited successfully, -1 otherwise.
  */

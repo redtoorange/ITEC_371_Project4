@@ -11,15 +11,16 @@
 #include "File.h"
 
 /**
-*	\brief A special type of file that contains the necessary metadata to be executed.  ProgramFiles can be loaded
-*	into a Scheduler which will spawn a process, an object that contains running process data.
-*/
+ *	\brief A special type of file that contains the necessary meta-data to be 
+ *	executed.  ProgramFiles can be loaded into a Scheduler which will spawn a 
+ *	process, an object that contains running process data.
+ */
 class ProgramFile : public File
 {
 public:
 	/**
-	 *	\brief Create a new ProgramFile with the given parameters.  The program file will
-	 *	be created on the heap and a shared point will be returned.
+	 *	\brief Create a new ProgramFile with the given parameters.  The program 
+	 *	file will be created on the heap and a shared point will be returned.
 	 * 
 	 *	\param name Name of the file
 	 *	\param time How long does the program take to run
@@ -30,7 +31,9 @@ public:
 	 *	
 	 *	\return A shared pointer to a heap allocated ProgramFile.
 	 */
-	static std::shared_ptr<ProgramFile> makeProgramFile( const std::string& name, int time, int mem, int doesIO, int timeIO, int amountIO );
+	static std::shared_ptr<ProgramFile> makeProgramFile( 
+		const std::string& name, int time, int mem, 
+		int doesIO, int timeIO, int amountIO);
 	
 	/**
 	 *	\brief Inflate a stored ProgramFile back into a full file.
@@ -38,20 +41,23 @@ public:
 	 *	\param name The name of the ProgramFile that is read from the file.
 	 *	\param stream The stream that contains the rest of the data.
 	 *	
-	 *	The ProgramFile is read from a binary file and reconstructed from the data.
+	 *	The ProgramFile is read from a binary file and reconstructed from the 
+	 *	data.
 	 *	
 	 *	\return A shared pointer to a ProgramFile to be managed by a Directory
 	 */
-	static std::shared_ptr<ProgramFile> inflateProgramFile( std::string& name, std::ifstream& stream );
+	static std::shared_ptr<ProgramFile> inflateProgramFile( std::string& name, 
+		std::ifstream& stream );
 
 	/**
-	 *	\brief Validate a user provided name to ensure that it complies with spec.
+	 *	\brief Validate a user provided name to ensure that it complies with 
+	 *	spec.
 	 * 
 	 *	\param name Program name entered by the user.
 	 *	
 	 *	The system would attempt to create a new program with the given name.  
-	 *	The system will accept just a name or one with an extension.  The name will
-	 *	be validated and trimmed.  
+	 *	The system will accept just a name or one with an extension.  The name 
+	 *	will be validated and trimmed.  
 	 *	
 	 *	\return True if the ProgramFile name is valid.
 	 */
@@ -60,41 +66,47 @@ public:
 	/**
 	 *	\brief Should NOT be used.  Instead use the makeProgramFile function.
 	 * 
-	 *	This should not be used, as it does not fully validate the file name and the
-	 *	ProgramFile will be stack allocated which will make it difficult to serialize later.
+	 *	This should not be used, as it does not fully validate the file name
+	 *	and the ProgramFile will be stack allocated which will make it difficult 
+	 *	to serialize later.
 	 * 
 	 *	\param name Name of the ProgramFile
 	 *	\param timeReq How long does this Program take to run
 	 *	\param memReq How much memory does it need to run
 	 *	\param doesIO Does it need to do IO?
-	 *	\param timeIO When does it fo IO?
+	 *	\param timeIO When does it go for IO?
 	 *	\param amountIO How long for IO?
 	 */
-	ProgramFile(const std::string& name, int timeReq, int memReq, int doesIO, int timeIO, int amountIO);
+	ProgramFile(const std::string& name, int timeReq, int memReq, 
+		int doesIO, int timeIO, int amountIO);
 
 	/**
 	 *	\brief Print the file's data based on the what is required from the spec.
 	 *	
-	 *	\param tabs How many tabs to include when printing.  Helps with displating things in a heirarchy
+	 *	\param tabs How many tabs to include when printing.  Helps with 
+	 *	displaying things in a hierarchy
 	 */
 	void printData(int tabs) override;
 	
 	/**
-	 *	\brief Write the program file out to a stream so that is can be saved to disk.
+	 *	\brief Write the program file out to a stream so that is can be saved 
+	 *	to disk.
 	 *	
 	 *	\param stream The output file stream to write the program's data to.
 	 */
 	void writeToFile(std::ofstream& stream) override;
 
 	/**
-	 *	\brief Get how much memory this program requires on the scheduler to run.
+	 *	\brief Get how much memory this program requires on the scheduler to 
+	 *	run.
 	 *	
 	 *	\return Amount of memory required for this program to tick
 	 */
 	int getMemoryRequirements() const;
 
 	/**
-	 *	\brief Get the number of time units this program needs to run for to finish.
+	 *	\brief Get the number of time units this program needs to run for to 
+	 *	finish.
 	 *	
 	 *	This does NOT include any IO requirements.
 	 *	

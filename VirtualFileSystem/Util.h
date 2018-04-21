@@ -10,8 +10,9 @@
 #include <string>
 
 /**
- *	The Util file contains data for useage by the program to handle different kinds of input.  
- *	All the commands the system is required to use are listed here.
+ *	The Util file contains data for usage by the program to handle different 
+ *	kinds of input.  All the commands the system is required to use are listed 
+ *	here.
  */
 
 //! Contains the string literal version of all commands
@@ -28,28 +29,28 @@ const std::string cmd[] = {
 	"addProgram",
 	"getmemory",
 	"setmemory",
-	"SETBURST",
-	"GETBURST",
+	"setburst",
+	"getburst",
 	"quit"
 };
 
 //! Contains the enumerated version of all commands.
 enum Commands : int{
-	PWD = 0,
-	LIST = 1,
-	MKDIR = 2,
-	CAT = 3,
-	CREATE_TEXT = 4,
-	RUN = 5,
-	START = 6,
-	STEP = 7,
-	CD = 8,
-	ADD_PRO = 9,
-	GET_MEM = 10,
-	SET_MEM = 11,
-	SET_BURST = 12,
-	GET_BURST = 13,
-	QUIT = 14
+	PWD 		= 0,
+	LIST 		= 1,
+	MKDIR 		= 2,
+	CAT 		= 3,
+	CREATE_TEXT	= 4,
+	RUN 		= 5,
+	START 		= 6,
+	STEP 		= 7,
+	CD 			= 8,
+	ADD_PRO 	= 9,
+	GET_MEM 	= 10,
+	SET_MEM 	= 11,
+	SET_BURST 	= 12,
+	GET_BURST 	= 13,
+	QUIT 	  	= 14
 	
 };
 

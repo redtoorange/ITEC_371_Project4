@@ -8,7 +8,8 @@
 #include <iostream>
 
 /**
- *	\brief Create a new TextFile from a given name.  The user will be prompted to enter the file contents.
+ *	\brief Create a new TextFile from a given name.  The user will be prompted 
+ *	to enter the file contents.
  *	
  *	\param name The name of the TextFile that user gave.
  *	
@@ -20,7 +21,7 @@ std::shared_ptr<TextFile> TextFile::makeTextFile(const std::string& name)
 	std::string n = name;
 	if( !validName(&n) )
 	{
-		std::cout << "Invalid textfile name!" << std::endl;
+		std::cout << "Invalid TextFile name!" << std::endl;
 		return nullptr;
 	}
 
@@ -39,13 +40,15 @@ std::shared_ptr<TextFile> TextFile::makeTextFile(const std::string& name)
  *	\param name The name of the TextFile
  *	\param stream The stream to read the contents of the file from.
  *	
- *	The TextFile can be loaded from a binary stream back into a full object on the heap.  This
- *	is done using shared pointers to allow directories to manage the memory and reserialize the
- *	file system when needed.
+ *	The TextFile can be loaded from a binary stream back into a full object on 
+ *	the heap.  This is done using shared pointers to allow directories to 
+ *	manage the memory and re-serialize the file system when needed.
  *	
- *	\return A shared pointer to the new TextFile that should be handled by a Directory.
+ *	\return A shared pointer to the new TextFile that should be handled by a 
+ *	Directory.
  */
-std::shared_ptr<TextFile> TextFile::inflateTextFile(std::string& name, std::ifstream& stream)
+std::shared_ptr<TextFile> TextFile::inflateTextFile(std::string& name, 
+	std::ifstream& stream)
 {
 	// Test the filename in-case of corruption
 	std::string n = name;
@@ -63,8 +66,8 @@ std::shared_ptr<TextFile> TextFile::inflateTextFile(std::string& name, std::ifst
 }
 
 /**
- *	\brief Check to see if the name follows the rules for a TextFile as specified by the
- *	Project.
+ *	\brief Check to see if the name follows the rules for a TextFile as 
+ *	specified by the Project.
  *	
  *	\param name User entered filename to validate.
  *	
@@ -82,7 +85,7 @@ bool TextFile::validName( std::string* name)
 	// Check the length
 	if( name->length() > 8)
 	{
-		std::cout << "File names cannot exceed 8 characters.\n";
+		std::cout << "TextFile names cannot exceed 8 characters.\n";
 		return false;
 	}
 		
@@ -92,10 +95,12 @@ bool TextFile::validName( std::string* name)
 	{
 		// Validate all the characters
 		char c = *iter;
-		if( !((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') ||((c >= '0' && c <= '9')) ) )
+		if( !(	(c >= 'a' && c <= 'z') || 
+				(c >= 'A' && c <= 'Z') ||
+				(c >= '0' && c <= '9')	)	)
 		{
 			// One has failed, notify the user.
-			std::cout << "File names must be alpha-numeric.\n";
+			std::cout << "TextFile names must be alpha-numeric.\n";
 			return false;
 		}
 	}
@@ -104,14 +109,16 @@ bool TextFile::validName( std::string* name)
 }
 
 /**
- *	\brief Constructor that should NOT be used.  Instead use the factory function makeTextFile().
+ *	\brief Constructor that should NOT be used.  Instead use the factory 
+ *	function makeTextFile().
  *	
  *	\param name The name of the TextFile
  *	\param contents The body of the TextFile
  *	
- *	This constructor should NOT be used.  The system relies on the use of shared pointers to manage
- *	the files contained in directories.  Using the constructor directly will violate this structure
- *	and cause the file to not be serialize when the file system is saved.
+ *	This constructor should NOT be used.  The system relies on the use of shared 
+ *	pointers to manage the files contained in directories.  Using the 
+ *	constructor directly will violate this structure and cause the file to not 
+ *	be serialize when the file system is saved.
  */
 TextFile::TextFile(const std::string& name, const std::string& contents)
 {
@@ -127,7 +134,8 @@ TextFile::TextFile(const std::string& name, const std::string& contents)
 void TextFile::printData(int tabs)
 {
 	// Write data specific to text files
-	std::cout << "Filename: " << fileName << ".t \tType: Text file" << std::endl;
+	std::cout << "Filename: " << fileName 
+		<< ".t \tType: Text file" << std::endl;
 }
 
 /**

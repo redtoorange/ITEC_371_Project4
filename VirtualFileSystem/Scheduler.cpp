@@ -11,10 +11,12 @@
 /**
  *	\brief Create a new Scheduler with the specified burst and memory.  
  *	
- *	The default burst and memory are invalid to begin with.  The user must set them by calling
- *	setMemory and setBurst.  This was done as recommended by the spec.
+ *	The default burst and memory are invalid to begin with.  The user must set 
+ *	them by calling setMemory and setBurst.  This was done as recommended by the 
+ *	spec.
  *	
- *	\param mem Amount of memory that the scheduler can allocate to running processes
+ *	\param mem Amount of memory that the scheduler can allocate to running 
+ *	processes
  *	\param burst Amount of time to allocate each process while it's running
  */
 Scheduler::Scheduler(int mem, int burst)
@@ -25,17 +27,18 @@ Scheduler::Scheduler(int mem, int burst)
 /**
  *	\brief Run the system until all the jobs on all the queues are finished.
  *	
- *	The system will run in bursts of time.  A process is pulled from the running queue and 
- *	ticked the number of times allowed by the burst.  It is then sent to the end of the queue.
+ *	The system will run in bursts of time.  A process is pulled from the running 
+ *	queue and ticked the number of times allowed by the burst.  It is then sent 
+ *	to the end of the queue.
  *	
- *	If the job needs IO, it is moved off the running queue and into the IO queue where it will run
- *	in parallel with the rest of the jobs.
+ *	If the job needs IO, it is moved off the running queue and into the IO queue 
+ *	where it will run in parallel with the rest of the jobs.
  *	
  *	If the job is in VM, it will be allocated memory before it can run.
  */
 void Scheduler::run()
 {
-	// Ensure that the burst time is atleast 1
+	// Ensure that the burst time is at least 1
 	if( burstTime <= 0 )
 	{
 		std::cout << "Burst Time must be greater than 0 before running.\n";
@@ -93,8 +96,8 @@ void Scheduler::checkForWakingIO()
  *	it has exhausted it's burst, it will be pushed to the back of the running
  *	queue.
  *	
- *	If there is no active job, the next one will be pulled from the running queue.  
- *	If there are no jobs available, only IO is ticked.
+ *	If there is no active job, the next one will be pulled from the running 
+ *	queue.  If there are no jobs available, only IO is ticked.
  */
 void Scheduler::tickSystem()
 {
@@ -164,8 +167,8 @@ void Scheduler::tickSystem()
 /**
  *	\brief Tick all the jobs that are waiting on IO.
  *	
- *	IO jobs are checked to see if they should wake in a separate function.  This function just
- *	updates all IO job internal timers.
+ *	IO jobs are checked to see if they should wake in a separate function.  
+ *	This function just updates all IO job internal timers.
  */
 void Scheduler::tickIOJobs()
 {
@@ -190,8 +193,9 @@ void Scheduler::tickIOJobs()
 /**
  *	\brief Advance the system forward by a number of time units.
  *	
- *	This is similar to calling the run function.  However, instead of running until everything is 
- *	finished, the system is only ticked a specified number of units.
+ *	This is similar to calling the run function.  However, instead of running 
+ *	until everything is finished, the system is only ticked a specified number 
+ *	of units.
  *	
  *	\amount How many times to tick the system.
  */
@@ -204,10 +208,16 @@ void Scheduler::step(int amount)
 		return;
 	}
 
-	std::cout << "\nAdvancing the system for " << amount << " units or until all jobs finished\n";
+	std::cout << "\nAdvancing the system for " << amount 
+		<< " units or until all jobs finished\n";
 
-	// Tick the system unil all jobs are done or the amount of ticks is exhausted
-	while( amount > 0 && (currentProcess || !runningJobs.empty() || !waitingOnIOJobs.empty()) )
+	// Tick the system until all jobs are done or the amount of ticks is 
+	//	exhausted
+	while( 	amount > 0 && 
+			(	currentProcess 			|| 
+				!runningJobs.empty() 	|| 
+				!waitingOnIOJobs.empty()
+			) )
 	{
 		tickSystem();
 		amount--;
@@ -242,7 +252,10 @@ void Scheduler::setMemory(int amount)
 
 	// Ensure there are no jobs currently using memory
 	if( memoryUsage > 0)
-		std::cout << "Error: Job are currently using memory.  Please allow them to finish before changing memory limit.\n";
+	{
+		std::cout << "Error: Job are currently using memory.  Please allow them" 
+			<< " to finish before changing memory limit.\n";
+	}
 
 	// Everything is good, set the memory
 	else
@@ -254,9 +267,9 @@ void Scheduler::setMemory(int amount)
  *	
  *	\param amount How much time to give a job when it is running.
  *	
- *	The system must have a burst time of atleast 2.  This is because a job requires 
- *	2 ticks to be loaded from VM.  If the burst time is less than 2, jobs will never
- *	get loaded.
+ *	The system must have a burst time of at least 2.  This is because a job 
+ *	requires 2 ticks to be loaded from VM.  If the burst time is less than 2, 
+ *	jobs will never get loaded.
  */
 void Scheduler::setBurst(int amount)
 {
@@ -270,7 +283,7 @@ void Scheduler::setBurst(int amount)
 
 	// Bad burst time
 	else
-		std::cout << "Error: System must have a burst time of atleat 2.\n";
+		std::cout << "Error: System must have a burst time of at least 2.\n";
 }
 
 /**
@@ -282,7 +295,8 @@ int Scheduler::getMemory()
 }
 
 /**
- *	\return The amount of time the scheduler will allocate to a job before it is swapped.
+ *	\return The amount of time the scheduler will allocate to a job before it 
+ *	is swapped.
  */
 int Scheduler::getBurst()
 {
@@ -292,23 +306,26 @@ int Scheduler::getBurst()
 /**
  *	\brief Add a ProgramFile to the scheduler's job queue.
  *	
- *	\param program A ProgramFile that should be converted into a process and added
- *	to the scheduler.
+ *	\param program A ProgramFile that should be converted into a process and 
+ *	added to the scheduler.
  *	
- *	The ProgramFile will be checked to ensure that the system has enough memory to run 
- *	the Program.  If it does, the Program will be converted into a process.  This process
- *	will be allocated memory.  If there is not enough available, the shceduler will use
- *	the RMU algorithm to shift a process into VM.
+ *	The ProgramFile will be checked to ensure that the system has enough memory 
+ *	to run the Program.  If it does, the Program will be converted into a 
+ *	process.  This process will be allocated memory.  If there is not enough 
+ *	available, the scheduler will use the RMU algorithm to shift a process 
+ *	into VM.
  */
 void Scheduler::addProcess(ProgramFile* program)
 {
 	// Make sure there is enough memory for the process to run at all
 	if( program->getMemoryRequirements() <= memoryLimit)
 	{
-		// Make the proc, if there was enough room, add it as normal, otherwise make it in VM
+		// Make the proc, if there was enough room, add it as normal, otherwise 
+		//	make it in VM
 		auto job = std::make_shared<Process>(program, currentTime);
 
-		// Flag, is there enough free memory on the system after we moving stuff to VM
+		// Flag, is there enough free memory on the system after we moving 
+		//	stuff to VM
 		bool enoughMemory = true;
 
 		// There is not enough free memory, move stuff to VM
@@ -329,12 +346,14 @@ void Scheduler::addProcess(ProgramFile* program)
 	// The system doesn't have enough memory to run the program
 	else
 	{
-		std::cout << program->getFileName() << " cannot be started, not enough total memory.\n";
+		std::cout << program->getFileName() 
+			<< " cannot be started, not enough total memory.\n";
 	}
 }
 
 /**
- *	\brief A process has finished working, move it to the finished queue and free it's memory.
+ *	\brief A process has finished working, move it to the finished queue and 
+ *	free it's memory.
  *	
  *	\param process The process that has finished it's job.
  */
@@ -372,7 +391,8 @@ void Scheduler::printRunningQueue()
 		runningJobs.pop_front();
 
 		// Print it's data
-		std::cout << "\tPosition " << count++ << ": job " << j->getData() << std::endl;
+		std::cout << "\tPosition " << count++ << ": job " 
+			<< j->getData() << std::endl;
 
 		// Push it onto the processed queue
 		tempJobs.push_back(j);
@@ -401,7 +421,9 @@ void Scheduler::printWaitingQueue()
 		waitingOnIOJobs.pop_front();
 
 		// Print it's data
-		std::cout << "The process " << j->getName() << " is obtaining IO and will be back in " << j->getRemainingIOTime() << " unit.\n";
+		std::cout << "The process " << j->getName() 
+			<< " is obtaining IO and will be back in " 
+			<< j->getRemainingIOTime() << " unit.\n";
 		
 		// Push it onto the processed queue
 		tempJobs.push_back(j);
@@ -462,9 +484,9 @@ void Scheduler::printSystemUpdate()
  *	
  *	\param amount How much memory needs to be acquired
  *	
- *	There is a chance that the required memory cannot be acquired.  If there are jobs
- *	getting IO, they are not considered for a VM shift.  Likewise, a job that is currently
- *	running cannot be moved to VM.
+ *	There is a chance that the required memory cannot be acquired.  If there 
+ *	are jobs getting IO, they are not considered for a VM shift.  Likewise, a 
+ *	job that is currently running cannot be moved to VM.
  *	
  *	\return True if the memory was acquired (freed from other processes)
  */
@@ -494,10 +516,12 @@ bool Scheduler::acquireResources(int amount)
 }
 
 /**
- *	\brief Calculate how much memory can be taken from jobs that are on the running queue.
+ *	\brief Calculate how much memory can be taken from jobs that are on the 
+ *	running queue.
  *	
- *	Only jobs that are currently on the running queue but that are not actually running are
- *	considered for freeing.  A job that is already in VM is also ignored.
+ *	Only jobs that are currently on the running queue but that are not actually 
+ *	running are considered for freeing.  A job that is already in VM is also 
+ *	ignored.
  *	
  *	\return How much memory can be freed from the system maximum.
  */
@@ -531,10 +555,11 @@ int Scheduler::calculateFreeable()
  *	\brief Start shifting jobs into VM until we have the minimum amount of
  *	memory required.
  *	
- *	This uses the MRU algorithm to shift jobs into the VM.  This is not the most efficient
- *	way of doing it, as it might free more memory than needed.
+ *	This uses the MRU algorithm to shift jobs into the VM.  This is not the most 
+ *	efficient way of doing it, as it might free more memory than needed.
  *	
- *	\param amount How much memory was actually freed.  This may be more than was requested.
+ *	\param amount How much memory was actually freed.  This may be more than 
+ *	was requested.
  */
 void Scheduler::freeMemory(int amount)
 {

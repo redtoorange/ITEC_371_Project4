@@ -36,9 +36,10 @@ void Directory::addObject( std::shared_ptr<FSObject> obj)
  *	
  *	\return A shared pointer to the new Directory
  */
-std::shared_ptr<Directory> Directory::CreateDirectory( std::string name, Directory* parent, bool root)
+std::shared_ptr<Directory> Directory::CreateDirectory( std::string name, 
+	Directory* parent, bool root)
 {
-	// Ensure that the filename is valid accoring to the spec
+	// Ensure that the filename is valid according to the spec
 	std::string n = name;
 	if( !validName( &n ) )
 	{
@@ -51,7 +52,8 @@ std::shared_ptr<Directory> Directory::CreateDirectory( std::string name, Directo
 }
 
 /**
- *	\brief Validate the user entered filename to make sure it conforms to the spec.
+ *	\brief Validate the user entered filename to make sure it conforms to the 
+ *	spec.
  *	
  *	\param name The name entered by the user.
  *	
@@ -84,7 +86,8 @@ bool Directory::validName( std::string* name)
 		if( !((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z')) )
 		{
 			// One was invalid, notify the user
-			std::cout << "Directory names must contain only alphabetic characters.\n";
+			std::cout 	<< "Directory names must contain only "
+						<< "alphabetic characters.\n";
 			return false;
 		}
 	}
@@ -93,15 +96,17 @@ bool Directory::validName( std::string* name)
 }
 
 /**
- *	\brief Constructor that should NOT be used.  Instead use the makeDirectory() function.
+ *	\brief Constructor that should NOT be used.  Instead use the makeDirectory() 
+ *	function.
  *	
  *	\param name Name of the Directory
  *	\param parent The Directory this contains this directory
  *	\param root Is this Directory the root Directory?
  *	
- *	The makeDirectory() function should be used so that the new Directory is allocated on the heap.
- *	This is required to allow for the filesystem to be serialized into a binary file.  If this 
- *	constructor is used, the data will likely not be saved.
+ *	The makeDirectory() function should be used so that the new Directory is 
+ *	allocated on the heap.  This is required to allow for the file system to be 
+ *	serialized into a binary file.  If this constructor is used, the data will 
+ *	likely not be saved.
  */
 Directory::Directory(const std::string& name, Directory* parent, bool root)
 {
@@ -111,7 +116,8 @@ Directory::Directory(const std::string& name, Directory* parent, bool root)
 }
 
 /**
- *	\brief Return the parent of this Directory or null if this is the root Directory.
+ *	\brief Return the parent of this Directory or null if this is the root 
+ *	Directory.
  *	
  *	\return Get a pointer to the Directory this this Directory is located in.
  */
@@ -121,7 +127,8 @@ Directory* Directory::getParent()
 }
 
 /**
- *	\brief Print data for this Directory and print the data for all of it's children.
+ *	\brief Print data for this Directory and print the data for all of it's 
+ *	children.
  *	
  *	\param tabs How many tabs to include before the file data (not used anymore)
  */
@@ -146,8 +153,9 @@ void Directory::printData(int tabs)
  *	
  *	\param name The name of the Directory to locate.
  *	
- *	Only the first instance of a directory with a matching name is returned.  There
- *	can be multiple Directories with the same name, but only the first can ever be used.
+ *	Only the first instance of a directory with a matching name is returned.  
+ *	There can be multiple Directories with the same name, but only the first 
+ *	can ever be used.
  *	
  *	\return A pointer to the Directory or null if not found.
  */
@@ -177,8 +185,9 @@ Directory* Directory::getDirectory(const std::string& name)
  *	
  *	\param name The name of the TextFile to locate.
  *	
- *	Only the first instance of a TextFile with a matching name is returned.  There
- *	can be multiple TextFile with the same name, but only the first will ever be returned.
+ *	Only the first instance of a TextFile with a matching name is returned.  
+ *	There can be multiple TextFile with the same name, but only the first will 
+ *	ever be returned.
  *	
  *	\return A pointer to the TextFile or null if not found.
  */
@@ -190,8 +199,8 @@ TextFile* Directory::getTextfile(const std::string& name)
 		// Try to cast to a TextFile
 		TextFile* t = dynamic_cast<TextFile*>(e.get());
 
-		// If the cast passes, check the name
-		if( t && (t->getFileName() == name || name == t->getFileName() + ".t" ) )
+		// If the cast passes, check the name with and without an extension
+		if( t && (t->getFileName() == name || name == t->getFileName() + ".t" ))
 			return t;
 	}
 
@@ -203,8 +212,9 @@ TextFile* Directory::getTextfile(const std::string& name)
  *	
  *	\param name The name of the ProgramFile to locate.
  *	
- *	Only the first instance of a ProgramFile with a matching name is returned.  There
- *	can be multiple ProgramFile with the same name, but only the first will ever be returned.
+ *	Only the first instance of a ProgramFile with a matching name is returned.  
+ *	There can be multiple ProgramFile with the same name, but only the first 
+ *	will ever be returned.
  *	
  *	\return A pointer to the ProgramFile or null if not found.
  */
@@ -216,8 +226,8 @@ ProgramFile* Directory::getProgramfile(const std::string& name)
 		// Try to cast to a ProgramFile, or nullptr if fails
 		ProgramFile* p = dynamic_cast<ProgramFile*>(e.get());
 
-		// If the cast passes, check the name
-		if( p && (p->getFileName() == name || name == p->getFileName() + ".p" ) )
+		// If the cast passes, check the name with and without an extension
+		if( p && (p->getFileName() == name || name == p->getFileName() + ".p" ))
 			return p;
 	}
 
@@ -229,9 +239,10 @@ ProgramFile* Directory::getProgramfile(const std::string& name)
  *	
  *	\param stream The Binary File Stream to write this Directory to.
  *	
- *	This Directy will be written to the stream, which in turn will recursively write all children
- *	of this Directory to the stream.  Calling this on a root Directory will result in the entire
- *	FileSystem being written to the file stream.
+ *	This Directory will be written to the stream, which in turn will recursively 
+ *	write all children of this Directory to the stream.  Calling this on a root 
+ *	Directory will result in the entire FileSystem being written to the file 
+ *	stream.
  */
 void Directory::writeToFile(std::ofstream& stream)
 {

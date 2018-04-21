@@ -13,13 +13,15 @@
 
 
 /**
- *	\brief A special type of File that is designed to hold a single string which is the "file contents"
+ *	\brief A special type of File that is designed to hold a single string 
+ *	which is the "file contents"
  */
 class TextFile : public File
 {
 public:
 	/**
-	 *	\brief Create a new TextFile from a given name.  The user will be prompted to enter the file contents.
+	 *	\brief Create a new TextFile from a given name.  The user will be 
+	 *	prompted to enter the file contents.
 	 *	
 	 *	\param name The name of the TextFile that user gave.
 	 *	
@@ -33,17 +35,19 @@ public:
 	 *	\param name The name of the TextFile
 	 *	\param stream The stream to read the contents of the file from.
 	 *	
-	 *	The TextFile can be loaded from a binary stream back into a full object on the heap.  This
-	 *	is done using shared pointers to allow directories to manage the memory and reserialize the
-	 *	file system when needed.
+	 *	The TextFile can be loaded from a binary stream back into a full object 
+	 *	on the heap.  This is done using shared pointers to allow directories 
+	 *	to manage the memory and re-serialize the file system when needed.
 	 *	
-	 *	\return A shared pointer to the new TextFile that should be handled by a Directory.
+	 *	\return A shared pointer to the new TextFile that should be handled by 
+	 *	a Directory.
 	 */
-	static std::shared_ptr<TextFile> inflateTextFile(  std::string& name, std::ifstream& stream);
+	static std::shared_ptr<TextFile> inflateTextFile(  std::string& name, 
+		std::ifstream& stream);
 	
 	/**
-	 *	\brief Check to see if the name follows the rules for a TextFile as specified by the
-	 *	Project.
+	 *	\brief Check to see if the name follows the rules for a TextFile as 
+	 *	specified by the Project.
 	 *	
 	 *	\param name User entered filename to validate.
 	 *	
@@ -52,14 +56,16 @@ public:
 	static bool validName( std::string* name);
 
 	/**
-	 *	\brief Constructor that should NOT be used.  Instead use the factory function makeTextFile().
+	 *	\brief Constructor that should NOT be used.  Instead use the factory 
+	 *	function makeTextFile().
 	 *	
 	 *	\param name The name of the TextFile
 	 *	\param contents The body of the TextFile
 	 *	
-	 *	This constructor should NOT be used.  The system relies on the use of shared pointers to manage
-	 *	the files contained in directories.  Using the constructor directly will violate this structure
-	 *	and cause the file to not be serialize when the file system is saved.
+	 *	This constructor should NOT be used.  The system relies on the use of 
+	 *	shared pointers to manage the files contained in directories.  Using the
+	 *	constructor directly will violate this structure and cause the file to 
+	 *	not be serialize when the file system is saved.
 	 */
 	TextFile(const std::string& name, const std::string& contents);
 

@@ -9,8 +9,8 @@
 #include <string>
 
 /**
- *	\brief Create a new ProgramFile with the given parameters.  The program file will
- *	be created on the heap and a shared point will be returned.
+ *	\brief Create a new ProgramFile with the given parameters.  The program 
+ *	file will be created on the heap and a shared point will be returned.
  * 
  *	\param name Name of the file
  *	\param time How long does the program take to run
@@ -21,7 +21,9 @@
  *	
  *	\return A shared pointer to a heap allocated ProgramFile.
  */
-std::shared_ptr<ProgramFile> ProgramFile::makeProgramFile( const std::string& name, int time, int mem, int doesIO, int timeIO, int amountIO  )
+std::shared_ptr<ProgramFile> ProgramFile::makeProgramFile( 
+	const std::string& name, int time, int mem, 
+	int doesIO, int timeIO, int amountIO  )
 {
 	// Check the name of the file
 	std::string n = name;
@@ -32,7 +34,8 @@ std::shared_ptr<ProgramFile> ProgramFile::makeProgramFile( const std::string& na
 	}
 
 	// Send back out new ProgramFile pointer
-	return std::make_shared<ProgramFile>(n, time, mem, doesIO, timeIO, amountIO);
+	return std::make_shared<ProgramFile>(n, time, mem, doesIO, 
+		timeIO, amountIO);
 
 }
 
@@ -40,17 +43,19 @@ std::shared_ptr<ProgramFile> ProgramFile::makeProgramFile( const std::string& na
  *	\brief Should NOT be used.  Instead use the makeProgramFile function.
  * 
  *	This should not be used, as it does not fully validate the file name and the
- *	ProgramFile will be stack allocated which will make it difficult to serialize later.
+ *	ProgramFile will be stack allocated which will make it difficult to 
+ *	serialize later.
  * 
  *	\param name Name of the ProgramFile
  *	\param timeReq How long does this Program take to run
  *	\param memReq How much memory does it need to run
  *	\param doesIO Does it need to do IO?
- *	\param timeIO When does it fo IO?
+ *	\param timeIO When does it go for IO?
  *	\param amountIO How long for IO?
  *	
  */
-ProgramFile::ProgramFile( const std::string& name, int timeReq, int memReq, int doesIO, int timeIO, int amountIO)
+ProgramFile::ProgramFile( const std::string& name, int timeReq, int memReq, 
+	int doesIO, int timeIO, int amountIO)
 {
 	fileName = name;
 
@@ -95,7 +100,9 @@ bool ProgramFile::validName( std::string* name)
 	{
 		// Step through each char and validate it
 		char c = *iter;
-		if( !((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') ||((c >= '0' && c <= '9')) ) )
+		if( !(	(c >= 'a' && c <= 'z') || 
+				(c >= 'A' && c <= 'Z') ||
+				(c >= '0' && c <= '9') ) )
 		{
 			// Found an error, notify the user
 			std::cout << "File names must be alpha-numeric.\n";
@@ -109,7 +116,8 @@ bool ProgramFile::validName( std::string* name)
 /**
  *	\brief Print the file's data based on the what is required from the spec.
  *	
- *	\param tabs How many tabs to include when printing.  Helps with displating things in a heirarchy
+ *	\param tabs How many tabs to include when printing.  Helps with displaying 
+ *	things in a hierarchy
  */
 void ProgramFile::printData(int tabs)
 {
@@ -120,8 +128,12 @@ void ProgramFile::printData(int tabs)
 
 	// Print the normal program data
 	std::cout << t << fileName << ".p" << std::endl;
-	std::cout << t << "\t" << "Time Requirement: " << timeRequirements << std::endl;
-	std::cout << t << "\t" << "Mem Requirement : " << memoryRequirements << std::endl;
+	
+	std::cout << t << "\t" << "Time Requirement: " 
+		<< timeRequirements << std::endl;
+		
+	std::cout << t << "\t" << "Mem. Requirement: " 
+		<< memoryRequirements << std::endl;
 
 	// If the Program does IO, print it's IO data
 	if( needsIO)
@@ -132,7 +144,8 @@ void ProgramFile::printData(int tabs)
 }
 
 /**
- *	\brief Write the program file out to a stream so that is can be saved to disk.
+ *	\brief Write the program file out to a stream so that is can be saved to 
+ *	disk.
  *	
  *	\param stream The output file stream to write the program's data to.
  */
@@ -225,7 +238,8 @@ int ProgramFile::getAmoutOfIO() const
  *	
  *	\return A shared pointer to a ProgramFile to be managed by a Directory
  */
-std::shared_ptr<ProgramFile> ProgramFile::inflateProgramFile(std::string& name, std::ifstream& stream)
+std::shared_ptr<ProgramFile> ProgramFile::inflateProgramFile(std::string& name, 
+	std::ifstream& stream)
 {
 	std::string n = name;
 	validName(&n);
